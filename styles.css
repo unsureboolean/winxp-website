@@ -527,11 +527,14 @@ body {
 .exe-window {
     min-width: 500px;
     min-height: 400px;
+    height: 600px;
+    width: 800px;
 }
 
 .exe-content {
     padding: 0;
     height: calc(100% - 32px);
+    overflow: hidden;
 }
 
 .exe-iframe {

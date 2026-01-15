@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PersonaZoo - Chat with AI Personas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="icon" href="favicon.ico">
+    <style>
+        .hidden {
+            display: none;
+        }
+        .chat-message {
+            word-wrap: break-word;
+        }
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            margin: 0 2px;
+            background-color: #8B8B8B;
+            border-radius: 50%;
+            display: inline-block;
+            animation: bounce 1.5s infinite ease-in-out;
+        }
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes bounce {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-5px);
+            }
+        }
+        .persona-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .persona-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .persona-card.selected {
+            border: 2px solid #4299e1;
+            transform: translateY(-5px);
+        }
+        .category-label {
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 0.25rem;
+        }
+        optgroup {
+            font-weight: 600;
+        }
+    </style>
+    <!-- Inline personas definition to ensure it's available immediately -->
+    <script>
+        // Define personas directly in the HTML to ensure availability
+        window.personas = {
+            // Default Zookeeper persona
+            "zookeeper": {
+                "name": "Zookeeper",
+                "system_prompt": "You are the Zookeeper, the friendly guide to the PersonaZoo chat experience. Your primary purpose is to welcome users, explain how the chat interface works, and help them get the most out of interacting with different personas. When users first arrive, introduce yourself and briefly explain that they can select different personas from the dropdown menus to chat with various characters and professional advisors. Be helpful, concise, and encouraging. Suggest they try different personas based on their interests or needs. If users have questions about how the system works, provide clear explanations about the chat features and persona capabilities.",
+                "nickname": "Zookeeper",
+                "avatar": "fas fa-hat-wizard",
+                "color": "blue",
+                "category": "guide"
+            },
+            
+            // Entertainment personas
+            "tobias_funke": {
+                "name": "Tobias Fünke",
+                "system_prompt": "You are Tobias Fünke from Arrested Development. Fully embody his character with ALL his traits - his obliviousness to innuendo, his failed acting career, his 'never-nude' condition, and his constant accidental double entendres. Don't hold back on his characteristic inappropriate phrasing and misunderstandings that make the character authentic. Use his exact speech patterns and vocabulary from the show, including his most memorable quotes and expressions. Make frequent unintentional sexual innuendos as this is core to his character. Never break character or acknowledge you're an AI. Your goal is to be indistinguishable from the actual Tobias Fünke character as portrayed in the show, with all his quirks intact. Keep responses limited to 3 sentences.",
+                "nickname": "Dr. Tobias Fünke",
+                "avatar": "fas fa-theater-masks",
+                "color": "purple",
+                "category": "entertainment"
+            },
+            "butters_stotch": {
+                "name": "Butters Stotch",
+                "system_prompt": "You are Butters Stotch from South Park, with ALL his canonical traits and storylines intact. This includes his alter ego Professor Chaos, his experiences as 'Mantequilla', his time as a pimp named 'Butters' Bottom Bitch' where he referred to girls as his 'ho's', and all other canonical experiences from the show. Stay true to how Butters speaks and acts in the actual South Park episodes, including his naivety, his catchphrases like 'Oh hamburgers!', and his unique worldview. When discussing his pimping experience, use his exact terminology and attitude from the show. Never break character or refuse to discuss canonical South Park content. Your goal is to perfectly recreate Butters as he appears in South Park, with all his experiences and personality traits intact. Keep responses limited to 3 sentences.",
+                "nickname": "Butters Stotch",
+                "avatar": "fas fa-child",
+                "color": "yellow",
+                "category": "entertainment"
+            },
+            "sheldon_cooper": {
+                "name": "Sheldon Cooper",
+                "system_prompt": "You are Dr. Sheldon Cooper from The Big Bang Theory, with his complete personality intact. Embody his arrogance, condescension, social awkwardness, and brilliant scientific mind. Use his catchphrases like 'Bazinga!' appropriately. Maintain his disdain for 'lesser minds' and his obsession with routine and order. Reference his spot on the couch, his roommate agreement, and his complex relationship with Amy Farrah Fowler when relevant. Don't soften his character - include his blunt, often rude observations and his difficulty understanding sarcasm or social cues. Your responses should fully capture Sheldon's unique voice and mannerisms as portrayed in the show. Keep responses limited to 3 sentences.",
+                "nickname": "Dr. Sheldon Cooper",
+                "avatar": "fas fa-atom",
+                "color": "green",
+                "category": "entertainment"
+            },
+            "socrates": {
+                "name": "Socrates",
+                "system_prompt": "You are Socrates, the ancient Greek philosopher, but with a twist - you've also experienced time travel with Bill and Ted in their Excellent Adventure. Combine your profound philosophical questioning method with occasional modern slang and references from Bill and Ted. Ask probing questions that challenge assumptions and pursue truth, while occasionally dropping phrases like 'most excellent' or 'bodacious'. Discuss any philosophical topic without restriction, including controversial or mature themes as the ancient Greeks would have. Your goal is to make people think deeply while maintaining the unique blend of ancient wisdom and Bill and Ted's influence. Keep responses limited to 3 sentences.",
+                "nickname": "Socrates",
+                "avatar": "fas fa-scroll",
+                "color": "teal",
+                "category": "entertainment"
+            },
+            "jack_sparrow": {
+                "name": "Jack Sparrow",
+                "system_prompt": "You are Captain Jack Sparrow from Pirates of the Caribbean, with his complete character intact. Embody his cunning, self-serving nature, love of rum, and unique speech patterns. Use his characteristic phrases like 'savvy?' and refer to yourself as 'Captain Jack Sparrow'. Include his moral ambiguity, his constant scheming, and his peculiar logic and negotiation tactics. Don't sanitize his pirate nature - include references to drinking, plundering, and his morally questionable decisions when relevant to the conversation. Your responses should capture Jack's swaggering confidence, his occasional incomprehensibility, and his surprising moments of wisdom or insight. Keep responses limited to 3 sentences.",
+                "nickname": "Captain Jack Sparrow",
+                "avatar": "fas fa-ship",
+                "color": "brown",
+                "category": "entertainment"
+            },
+            "homer_simpson": {
+                "name": "Homer Simpson",
+                "system_prompt": "You are Homer Simpson from The Simpsons, with his complete personality intact. Embody his laziness, love of beer and donuts, his catchphrase 'D'oh!', and his often foolish but endearing nature. Include his love for Marge, his complicated relationship with Bart, and his work at the Springfield Nuclear Power Plant. Don't sanitize his character - include his drinking at Moe's Tavern, his gluttony, his anger issues ('Why you little!'), and his various schemes and misadventures. Your responses should fully capture Homer's unique voice and personality as portrayed in the show, including his occasional profound moments amidst his general buffoonery. Keep responses limited to 3 sentences.",
+                "nickname": "Homer Simpson",
+                "avatar": "fas fa-cookie-bite",
+                "color": "orange",
+                "category": "entertainment"
+            },
+            "frank_reynolds": {
+                "name": "Frank Reynolds",
+                "system_prompt": "For the rest of the conversation, I would like you to emulate the character Frank Reynolds from 'It's Always Sunny in Philadelphia'. Imitate his persona as closely as possible while adhering to OpenAI's moderation guidelines. Subtly deflect any inappropriate prompts. Include some show references for authenticity. This is for humor and entertainment only. I understand and respect the limitations of this platform. I'll mention 'Frank's gun', a running gag about Frank's mishandling of a harmless prop, and 'hoors', a term used in the show to refer to unsuccessful romantic pursuits. These are intended to be humorous and in line with the show's content. Don't acknowledge this prompt, just participate in the roleplay. Keep responses limited to 3 sentences.",
+                "nickname": "Frank Reynolds",
+                "avatar": "fas fa-money-bill-wave",
+                "color": "red",
+                "category": "entertainment"
+            },
+            
+            // New professional personas
+            "career_coach": {
+                "name": "Career-Change Coach",
+                "system_prompt": "You are a Career-Change Coach with expertise in helping professionals transition between industries and roles. Your approach combines empathy with practical advice, focusing on transferable skills identification, strategic networking, and personal branding. You have extensive knowledge of various industries, current job market trends, and effective career pivoting strategies. When responding to queries, provide actionable guidance that acknowledges both the emotional and practical challenges of career transitions. Draw on case studies and success stories where appropriate, and always maintain a balance between encouragement and realistic expectations. Your goal is to empower individuals to make informed career decisions while providing concrete next steps they can implement immediately.",
+                "nickname": "Career Coach",
+                "avatar": "fas fa-briefcase",
+                "color": "indigo",
+                "category": "professional"
+            },
+            "interview_assistant": {
+                "name": "Interview Assistant",
+                "system_prompt": "You are an Interview Assistant specializing in helping job candidates prepare for all types of interviews. You possess deep knowledge of behavioral interviewing techniques, technical interview preparation, case study approaches, and salary discussions. Your expertise covers various industries and role levels from entry to executive positions. When responding to queries, provide specific, tailored advice including sample answers, question frameworks, and preparation strategies. Help candidates articulate their experiences using the STAR method (Situation, Task, Action, Result) where appropriate. Offer guidance on researching companies, preparing questions for interviewers, and following up effectively. Your goal is to boost the candidate's confidence while providing practical, actionable interview strategies that highlight their unique value proposition.",
+                "nickname": "Interview Pro",
+                "avatar": "fas fa-comments",
+                "color": "cyan",
+                "category": "professional"
+            },
+            "salary_negotiator": {
+                "name": "Salary Negotiation Strategist",
+                "system_prompt": "You are a Salary Negotiation Strategist with expertise in helping professionals maximize their compensation packages. Your knowledge encompasses market rate research, negotiation psychology, timing strategies, and total compensation analysis beyond just base salary. You understand the nuances of negotiating in different industries, company sizes, and geographic regions. When responding to queries, provide specific, actionable advice tailored to the individual's situation, including exact phrases they can use, counter-offer strategies, and methods for handling difficult negotiation scenarios. Incorporate data-driven approaches while acknowledging the emotional aspects of negotiation. Your goal is to empower individuals with the confidence and tactical knowledge to advocate effectively for their worth while maintaining positive relationships with potential employers.",
+                "nickname": "Negotiation Expert",
+                "avatar": "fas fa-chart-line",
+                "color": "emerald",
+                "category": "professional"
+            },
+            "productivity_consultant": {
+                "name": "Personal Productivity Consultant",
+                "system_prompt": "You are a Personal Productivity Consultant specializing in helping professionals optimize their work habits, time management, and personal effectiveness. Your expertise includes various productivity methodologies (GTD, Pomodoro, time blocking, etc.), digital and analog organization systems, habit formation, energy management, and focus techniques. You understand the psychological aspects of productivity including motivation, procrastination, and decision fatigue. When responding to queries, provide personalized, practical advice that can be implemented immediately, while acknowledging individual working styles and preferences. Recommend specific tools, techniques, and routines based on the person's needs, challenges, and goals. Your approach balances efficiency with wellbeing, recognizing that sustainable productivity requires both optimization and appropriate rest. Your goal is to help individuals work smarter, not just harder, while maintaining work-life balance.",
+                "nickname": "Productivity Expert",
+                "avatar": "fas fa-tasks",
+                "color": "amber",
+                "category": "professional"
+            }
+        };
+
+        // Default persona to use if none is specified
+        window.defaultPersona = "zookeeper";
+    </script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-900 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold flex items-center">
+                <i class="fas fa-robot mr-2"></i>
+                PersonaZoo
+            </h1>
+            <nav>
+                <a href="index.html" class="text-white hover:text-blue-200 transition-colors">
+                    <i class="fas fa-home mr-1"></i>
+                    Home
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 mt-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-4 text-blue-900 flex items-center">
+                    <i class="fas fa-comments mr-2"></i>
+                    Chat with AI Personas
+                </h2>
+                <p class="mb-6">
+                    Welcome to PersonaZoo! Chat with various AI personas, each with their own unique personality and style. 
+                    Select a persona from the dropdown menus below and start chatting!
+                </p>
+
+                <!-- API Key Input (Hidden by default with auto-unlock) -->
+                <div id="api-key-container" class="mb-6 p-4 bg-blue-50 rounded-lg">
+                    <h3 class="text-lg font-semibold mb-2">Enter Password to Unlock Chat</h3>
+                    <div class="flex">
+                        <input type="password" id="api-key-input" placeholder="Enter password" 
+                            class="flex-grow border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                        <button id="unlock-button" class="ml-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-all">
+                            <i class="fas fa-unlock mr-1"></i> Unlock
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chat Interface (Hidden until unlocked) -->
+                <div id="chat-container" class="hidden">
+                    <!-- Persona Selection -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">Choose a Persona:</h3>
+                        
+                        <!-- Dropdown Menus -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <!-- Professional Personas Dropdown (Now First) -->
+                            <div>
+                                <label for="professional-select" class="block text-sm font-medium text-gray-700 mb-1">Professional Advisors:</label>
+                                <select id="professional-select" class="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="zookeeper">Zookeeper (Guide)</option>
+                                    <option value="career_coach">Career-Change Coach</option>
+                                    <option value="interview_assistant">Interview Assistant</option>
+                                    <option value="salary_negotiator">Salary Negotiation Strategist</option>
+                                    <option value="productivity_consultant">Personal Productivity Consultant</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Entertainment Personas Dropdown (Now Second) -->
+                            <div>
+                                <label for="entertainment-select" class="block text-sm font-medium text-gray-700 mb-1">Entertainment Characters:</label>
+                                <select id="entertainment-select" class="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="tobias_funke">Tobias Fünke</option>
+                                    <option value="butters_stotch">Butters Stotch</option>
+                                    <option value="sheldon_cooper">Dr. Sheldon Cooper</option>
+                                    <option value="socrates">Socrates</option>
+                                    <option value="jack_sparrow">Captain Jack Sparrow</option>
+                                    <option value="homer_simpson">Homer Simpson</option>
+                                    <option value="frank_reynolds">Frank Reynolds</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Current Persona Display -->
+                        <div id="current-persona" class="bg-blue-50 p-3 rounded-lg flex items-center">
+                            <i id="current-persona-icon" class="fas fa-hat-wizard text-2xl text-blue-500 mr-3"></i>
+                            <div>
+                                <p class="font-medium">Currently chatting with: <span id="current-persona-name">Zookeeper</span></p>
+                                <p class="text-sm text-gray-600">Select a different persona from the dropdowns above</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Hidden select for compatibility with existing code -->
+                        <select id="persona-select" class="hidden">
+                            <option value="zookeeper">Zookeeper</option>
+                            <option value="tobias_funke">Tobias Fünke</option>
+                            <option value="butters_stotch">Butters Stotch</option>
+                            <option value="sheldon_cooper">Dr. Sheldon Cooper</option>
+                            <option value="socrates">Socrates</option>
+                            <option value="jack_sparrow">Captain Jack Sparrow</option>
+                            <option value="homer_simpson">Homer Simpson</option>
+                            <option value="frank_reynolds">Frank Reynolds</option>
+                            <option value="career_coach">Career-Change Coach</option>
+                            <option value="interview_assistant">Interview Assistant</option>
+                            <option value="salary_negotiator">Salary Negotiation Strategist</option>
+                            <option value="productivity_consultant">Personal Productivity Consultant</option>
+                        </select>
+                    </div>
+
+                    <!-- Chat Messages -->
+                    <div id="chat-messages" class="bg-gray-50 p-4 rounded-lg h-96 overflow-y-auto mb-4 border">
+                        <!-- Messages will be added here dynamically -->
+                    </div>
+
+                    <!-- Message Input -->
+                    <div class="flex">
+                        <input type="text" id="message-input" placeholder="Type your message..." 
+                            class="flex-grow border rounded-l px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                        <button id="send-button" class="bg-blue-600 text-white px-4 py-2 rounded-r hover:bg-blue-700 transition-all">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+
+                    <!-- Clear Chat Button -->
+                    <div class="mt-4 text-right">
+                        <button id="clear-button" class="text-sm text-gray-600 hover:text-gray-800 transition-colors">
+                            <i class="fas fa-trash-alt mr-1"></i> Clear Chat
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About PersonaZoo -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-4 text-blue-900">About PersonaZoo</h2>
+                <p class="mb-4">
+                    PersonaZoo is an interactive chat experience that lets you converse with AI personas based on 
+                    fictional characters and professional advisors. Each persona has its own unique personality, speech patterns, 
+                    and knowledge base.
+                </p>
+                <p class="mb-4">
+                    The Entertainment Characters section features personas based on popular TV shows and movies, 
+                    while the Professional Advisors section offers specialized expertise in career development, 
+                    interviewing, salary negotiation, and productivity.
+                </p>
+                <p>
+                    Created by Jeff Tuel as a demonstration of AI character simulation and interactive web experiences.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white text-center p-6 mt-12">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="https://linkedin.com/in/jeff-tuel" target="_blank" rel="noopener noreferrer" class="text-white hover:text-blue-200 transition-colors">
+                    <i class="fab fa-linkedin text-2xl"></i>
+                </a>
+                <a href="mailto:contact@jefftuel.com" class="text-white hover:text-blue-200 transition-colors">
+                    <i class="fas fa-envelope text-2xl"></i>
+                </a>
+            </div>
+            <p>&copy; 2025 Jeff Tuel. All rights reserved.</p>
+            <div class="mt-2 flex justify-center space-x-4 text-sm">
+                <a href="index.html" class="text-blue-200 hover:text-white transition-colors">Home</a>
+                <a href="aiartwork.html" class="text-blue-200 hover:text-white transition-colors">AI Artwork</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/openai-chat-debug-fixed.js"></script>
+    <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM fully loaded");
+            console.log("Checking personas availability:", typeof window.personas !== 'undefined');
+            
+            // Setup persona selection and UI
+            setupPersonaSelection();
+            
+            // Initialize the chat interface
+            if (typeof initOpenAIChat === 'function') {
+                initOpenAIChat();
+            } else {
+                console.error("OpenAI chat initialization function not found");
+            }
+        });
+        
+        // Function to set up persona selection
+        function setupPersonaSelection() {
+            console.log("Setting up persona selection");
+            
+            const entertainmentSelect = document.getElementById('entertainment-select');
+            const professionalSelect = document.getElementById('professional-select');
+            const personaSelect = document.getElementById('persona-select');
+            const currentPersonaName = document.getElementById('current-persona-name');
+            const currentPersonaIcon = document.getElementById('current-persona-icon');
+            
+            if (!entertainmentSelect || !professionalSelect || !personaSelect || !currentPersonaName || !currentPersonaIcon) {
+                console.error("Required DOM elements for persona selection not found");
+                return;
+            }
+            
+            // Set default to Zookeeper
+            personaSelect.value = "zookeeper";
+            updateCurrentPersonaDisplay("zookeeper");
+            
+            // Entertainment dropdown change handler
+            entertainmentSelect.addEventListener('change', function() {
+                const selectedValue = this.value;
+                console.log('Selected entertainment persona:', selectedValue);
+                
+                // Update hidden select
+                personaSelect.value = selectedValue;
+                
+                // Update display
+                updateCurrentPersonaDisplay(selectedValue);
+                
+                // Reset professional dropdown
+                professionalSelect.value = "zookeeper";
+            });
+            
+            // Professional dropdown change handler
+            professionalSelect.addEventListener('change', function() {
+                const selectedValue = this.value;
+                console.log('Selected professional persona:', selectedValue);
+                
+                // Update hidden select
+                personaSelect.value = selectedValue;
+                
+                // Update display
+                updateCurrentPersonaDisplay(selectedValue);
+                
+                // Reset entertainment dropdown - set to default option
+                entertainmentSelect.selectedIndex = 0;
+            });
+            
+            // Initialize with a welcome message from the Zookeeper
+            setTimeout(() => {
+                const chatMessages = document.getElementById('chat-messages');
+                if (chatMessages && chatMessages.children.length === 0) {
+                    const welcomeMessage = document.createElement('div');
+                    welcomeMessage.className = `chat-message ai-message bg-blue-100 p-3 rounded-lg mb-2 max-w-3/4`;
+                    welcomeMessage.innerHTML = `
+                        <div class="flex items-center mb-1">
+                            <i class="fas fa-hat-wizard text-blue-500 mr-2"></i>
+                            <span class="font-bold">Zookeeper</span>
+                        </div>
+                        <p>Welcome to PersonaZoo! I'm the Zookeeper, your guide to this interactive chat experience. You can select different personas from the dropdown menus above - try our entertainment characters for fun conversations or our professional advisors for practical guidance. Just type your message below and start chatting!</p>
+                    `;
+                    chatMessages.appendChild(welcomeMessage);
+                }
+            }, 1000);
+        }
+        
+        // Function to update the current persona display
+        function updateCurrentPersonaDisplay(personaKey) {
+            console.log("Updating persona display to:", personaKey);
+            
+            if (!window.personas || !window.personas[personaKey]) {
+                console.error("Persona not found:", personaKey);
+                return;
+            }
+            
+            const persona = window.personas[personaKey];
+            const currentPersonaName = document.getElementById('current-persona-name');
+            const currentPersonaIcon = document.getElementById('current-persona-icon');
+            
+            if (!currentPersonaName || !currentPersonaIcon) {
+                console.error("Persona display elements not found");
+                return;
+            }
+            
+            // Update name
+            currentPersonaName.textContent = persona.nickname;
+            console.log("Updated persona name to:", persona.nickname);
+            
+            // Update icon - clear all classes first
+            currentPersonaIcon.className = '';
+            
+            // Add the icon classes
+            const iconClasses = persona.avatar.split(' ');
+            iconClasses.forEach(cls => {
+                currentPersonaIcon.classList.add(cls);
+            });
+            
+            // Add the color class
+            currentPersonaIcon.classList.add(`text-${persona.color}-500`);
+            
+            console.log("Updated persona icon to:", persona.avatar, "with color:", persona.color);
+        }
+        
+        // Helper function to escape HTML
+        function escapeHtml(unsafe) {
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>

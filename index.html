@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeff Tuel - Personal Website</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+</head>
+<body>
+    <!-- Tip of the Day Modal -->
+    <div class="tip-modal" id="tip-modal" style="display: none;">
+        <div class="tip-window">
+            <div class="tip-header">
+                <span class="tip-icon">💡</span>
+                Tip of the Day
+            </div>
+            <div class="tip-content">
+                <p id="tip-text"></p>
+            </div>
+            <div class="tip-buttons">
+                <button class="xp-button" id="next-tip-btn">Next Tip</button>
+                <button class="xp-button" id="close-tip-btn">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Background -->
+    <div class="desktop">
+        <!-- Desktop Icons -->
+        <div class="desktop-icons">
+            <div class="desktop-icon" data-window="mycomputer">
+                <div class="icon-image">🖥️</div>
+                <div class="icon-label">My Computer</div>
+            </div>
+            <div class="desktop-icon" data-window="controlpanel">
+                <div class="icon-image">⚙️</div>
+                <div class="icon-label">Control Panel</div>
+            </div>
+            <div class="desktop-icon" data-window="games">
+                <div class="icon-image">🎮</div>
+                <div class="icon-label">Games</div>
+            </div>
+            <div class="desktop-icon" data-window="mypictures">
+                <div class="icon-image">🖼️</div>
+                <div class="icon-label">My Pictures</div>
+            </div>
+            <div class="desktop-icon" data-window="readme">
+                <div class="icon-image">📄</div>
+                <div class="icon-label">README.txt</div>
+            </div>
+            <div class="desktop-icon" data-window="outlook">
+                <div class="icon-image">✉️</div>
+                <div class="icon-label">Outlook Express</div>
+            </div>
+            <div class="desktop-icon" data-window="personazoo-exe">
+                <div class="icon-image">👥</div>
+                <div class="icon-label">PersonaZoo.exe</div>
+            </div>
+            <div class="desktop-icon" data-window="gridlock-exe">
+                <div class="icon-image">🎯</div>
+                <div class="icon-label">Gridlock.exe</div>
+            </div>
+            <div class="desktop-icon" data-window="shower-thoughts">
+                <div class="icon-image">📝</div>
+                <div class="icon-label">ShowerThoughts.txt</div>
+            </div>
+            <div class="desktop-icon" data-window="recycle-bin">
+                <div class="icon-image">🗑️</div>
+                <div class="icon-label">Recycle Bin</div>
+            </div>
+        </div>
+
+        <!-- Windows -->
+        <!-- My Computer (About) Window -->
+        <div class="window" id="mycomputer-window" style="display: none;">
+            <div class="window-header">
+                <div class="window-title">
+                    <span class="window-icon">🖥️</span>
+                    My Computer
+                </div>
+                <div class="window-controls">
+                    <button class="minimize-btn">_</button>
+                    <button class="maximize-btn">□</button>
+                    <button class="close-btn">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <h2>Hi, I'm Jeff</h2>
+                <p><strong>Clear. Focused. People-first.</strong></p>
+                <p>I help teams navigate change, solve problems, and build stronger connections. I believe in people-centered leadership and using communication as a tool for real progress. While my background is in tech and consulting, I'm always open to any work that feels grounded and focused on helping real people in meaningful ways. I'm especially drawn to roles where empathy, clarity, and human connection are front and center.</p>
+                
+                <h3>Skills</h3>
+                <div class="skills-container">
+                    <span class="skill-badge">Leadership</span>
+                    <span class="skill-badge">Communication</span>
+                    <span class="skill-badge">Problem Solving</span>
+                    <span class="skill-badge">Team Building</span>
+                    <span class="skill-badge">Project Management</span>
+                    <span class="skill-badge">Change Management</span>
+                    <span class="skill-badge">User Adoption</span>
+                    <span class="skill-badge">End User Training</span>
+                    <span class="skill-badge">Enablement</span>
+                    <span class="skill-badge">Team Development</span>
+                    <span class="skill-badge">Consulting</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Panel (Experience) Window -->
+        <div class="window" id="controlpanel-window" style="display: none;">
+            <div class="window-header">
+                <div class="window-title">
+                    <span class="window-icon">⚙️</span>
+                    Control Panel
+                </div>
+                <div class="window-controls">
+                    <button class="minimize-btn">_</button>
+                    <button class="maximize-btn">□</button>
+                    <button class="close-btn">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="experience-item">
+                    <h3>Avaya</h3>
+                    <p class="job-title">Led internal product rollouts</p>
+                    <p>Managed cross-functional teams to successfully implement new products and systems, ensuring smooth adoption and minimal disruption to operations.</p>
+                </div>
+                
+                <div class="experience-item">
+                    <h3>Slalom</h3>
+                    <p class="job-title">Consulted with cross-functional teams</p>
+                    <p>Provided strategic guidance and technical expertise to help teams overcome challenges and achieve their business objectives.</p>
+                </div>
+                
+                <div class="experience-item">
+                    <h3>Coastal Cloud</h3>
+                    <p class="job-title">Supported user adoption</p>
+                    <p>Developed and implemented strategies to increase user adoption of new technologies, focusing on clear communication and practical training.</p>
+                </div>
+
+                <div class="patch-notes">
+                    <h3>Jeff v2.5 Patch Notes</h3>
+                    <div class="patch-content">
+                        <p><strong>New Features:</strong></p>
+                        <ul>
+                            <li>+20% multitasking efficiency</li>
+                            <li>Added skill: team leadership</li>
+                            <li>Improved communication protocols</li>
+                        </ul>
+                        <p><strong>Bug Fixes:</strong></p>
+                        <ul>
+                            <li>Fixed bug: forgetting to eat during projects</li>
+                            <li>Fixed: tendency to work late into the night</li>
+                            <li>Resolved: occasional caffeine dependency issues</li>
+                        </ul>
+                        <p><strong>Deprecated:</strong></p>
+                        <ul>
+                            <li>All-nighters (mostly)</li>
+                            <li>Working without breaks</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Games (Projects) Window -->
+        <div class="window" id="games-window" style="display: none;">
+            <div class="window-header">
+                <div class="window-title">
+                    <span class="window-icon">🎮</span>
+                    Games
+                </div>
+                <div class="window-controls">
+                    <button class="minimize-btn">_</button>
+                    <button class="maximize-btn">□</button>
+                    <button class="close-btn">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-icon">👥</div>
+                        <h4>Employee Onboarding</h4>
+                        <p>Designed comprehensive onboarding programs that improved new hire integration and reduced time-to-productivity.</p>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-icon">📈</div>
+                        <h4>Process Improvement</h4>
+                        <p>Led initiatives that increased team productivity and reduced friction in workflows and operations.</p>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-icon">🤖</div>
+                        <h4>AI Product Development</h4>
+                        <p>Led the design and implementation of AI solutions with tangible impact, including a large-scale content retrieval and generation system for internal marketing and sales teams.</p>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-icon">🛠️</div>
+                        <h4>Enablement Tools</h4>
+                        <p>Skilled in identifying and leveraging platforms such as Manus, GPT, and Claude to streamline workflows, centralize resources, and enhance team productivity.</p>
+                        <a href="https://manus.im/invitation/EDYNGFT15OVIGUN" class="xp-button" target="_blank">Check Out Manus.ai</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Pictures (Personal Life) Window -->
+        <div class="window" id="mypictures-window" style="display: none;">
+            <div class="window-header">
+                <div class="window-title">
+                    <span class="window-icon">🖼️</span>
+                    My Pictures
+                </div>
+                <div class="window-controls">
+                    <button class="minimize-btn">_</button>
+                    <button class="maximize-btn">□</button>
+                    <button class="close-btn">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <p>Outside of work, I enjoy strategy and story-driven games, reading sci-fi and litrpg books, exploring new technology, and spending time with family. I've learned the importance of rest and balance, especially in a world that never slows down. Time with my family, a good book, or a night of gaming with friends helps me reset and show up as my best self when it really counts. I'm also constantly bombarded with attention from my pets!</p>
+                
+                <h3>My Interests</h3>
+                <div class="interests-grid">
+                    <div class="interest-item">
+                        <div class="interest-icon">🎮</div>
+                        <p>Gaming</p>
+                    </div>
+                    <div class="interest-item">
+                        <div class="interest-icon">📚</div>
+                        <p>Reading</p>
+                    </div>
+                    <div class="interest-item">
+                        <div class="interest-icon">💻</div>
+                        <p>Technology</p>
+                    </div>
+                    <div class="interest-item">
+                        <div class="interest-icon">👨‍👩‍👧‍👦</div>
+                        <p>Family Time</p>
+                    </div>
+                </div>
+                
+                <div class="personal-links">
+                    <a href="aiartwork.html" class="xp-button">Check Out My AI Artwork</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- README.txt (Values) Window -->
+        <div class="window" id="readme-window" style="display: none;">
+            <div class="window-header">
+                <div class="window-title">
+                    <span class="window-icon">📄</span>
+                    README.txt
+                </div>
+                <div class="window-controls">
+                    <button class="minimize-btn">_</button>
+                    <button class="maximize-btn">□</button>
+                    <button class="close-btn">×</button>
+                </div>
+            </div>
+            <div class="window-content notepad-style">
+                <p>I believe that great communication can solve almost any problem. I value curiosity, empathy, and the drive to empower teams, organizations, and myself. I'm open to stepping away from corporate tech work if it means contributing to something that actually improves people's lives.</p>
+                
+                <h3>Core Values</h3>
+                <div class="values-grid">
+                    <div class="value-item">
+                        <h4>Communication</h4>
+                        <p>Clear, honest dialogue builds trust and solves problems.</p>
+                    </div>
+                    <div class="value-item">
+                        <h4>Empathy</h4>
+                        <p>Understanding others' perspectives creates better solutions.</p>
+                    </div>
+                    <div class="value-item">
+                        <h4>Growth</h4>
+                        <p>Continuous learning and improvement for myself and others.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Outlook Express (Contact) Window -->
+        <div class="window" id="outlook-window" style="display: none;">
+            <div class="window-header">
+                <div class="window-title">
+                    <span class="window-icon">✉️</span>
+                    Outlook Express
+                </div>
+                <div class="window-controls">
+                    <button class="minimize-btn">_</button>
+                    <button class="maximize-btn">□</button>
+                    <button class="close-btn">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <h2>Let's Connect!</h2>
+                <p>I'm always interested in meaningful conversations and opportunities to help people and organizations grow.</p>
+                
+                <div class="contact-links">
+                    <a href="https://linkedin.com/in/jeff-tuel" class="xp-button" target="_blank">
+                        <span class="button-icon">💼</span>
+                        LinkedIn Profile
+                    </a>
+                    <a href="mailto:jeff.tuel@example.com" class="xp-button">
+                        <span class="button-icon">📧</span>
+                        Send Email
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- PersonaZoo.exe Window -->
+        <div class="window exe-window" id="personazoo-exe-window" style="display: none;">
+            <div class="window-header">
+                <div class="window-title">
+                    <span class="window-icon">👥</span>
+                    PersonaZoo.exe
+                </div>
+                <div class="window-controls">
+                    <button class="minimize-btn">_</button>
+                    <button class="maximize-btn">□</button>
+                    <button class="close-btn">×</button>
+                </div>
+            </div>
+            <div class="window-content exe-content">
+                <iframe src="personazoo.html" class="exe-iframe"></iframe>
+            </div>
+        </div>
+
+        <!-- Gridlock.exe Window -->
+        <div class="window exe-window" id="gridlock-exe-window" style="display: none;">
+            <div class="window-header">
+                <div class="window-title">
+                    <span class="window-icon">🎯</span>
+                    Gridlock.exe
+                </div>
+                <div class="window-controls">
+                    <button class="minimize-btn">_</button>
+                    <button class="maximize-btn">□</button>
+                    <button class="close-btn">×</button>
+                </div>
+            </div>
+            <div class="window-content exe-content">
+                <iframe src="Gridlock.html" class="exe-iframe"></iframe>
+            </div>
+        </div>
+
+        <!-- ShowerThoughts.txt Window -->
+        <div class="window" id="shower-thoughts-window" style="display: none;">
+            <div class="window-header">
+                <div class="window-title">
+                    <span class="window-icon">📝</span>
+                    ShowerThoughts.txt
+                </div>
+                <div class="window-controls">
+                    <button class="minimize-btn">_</button>
+                    <button class="maximize-btn">□</button>
+                    <button class="close-btn">×</button>
+                </div>
+            </div>
+            <div class="window-content notepad-style">
+                <p id="shower-thought-text"></p>
+                <button class="xp-button" id="next-thought-btn" style="margin-top: 16px;">Next Thought</button>
+            </div>
+        </div>
+
+        <!-- Recycle Bin Window -->
+        <div class="window" id="recycle-bin-window" style="display: none;">
+            <div class="window-header">
+                <div class="window-title">
+                    <span class="window-icon">🗑️</span>
+                    Recycle Bin
+                </div>
+                <div class="window-controls">
+                    <button class="minimize-btn">_</button>
+                    <button class="maximize-btn">□</button>
+                    <button class="close-btn">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <h3>Scrapped Ideas & Projects</h3>
+                <div class="recycle-items">
+                    <div class="recycle-item">
+                        <p><strong>Project: "Drone v1.0"</strong></p>
+                        <p>Failed attempt at building a drone out of a fan and duct tape. Physics didn't cooperate.</p>
+                    </div>
+                    <div class="recycle-item">
+                        <p><strong>Idea: "Telepathic Email"</strong></p>
+                        <p>Thought this would be revolutionary. Turns out people still need keyboards.</p>
+                    </div>
+                    <div class="recycle-item">
+                        <p><strong>Project: "Coffee-Powered Algorithm"</strong></p>
+                        <p>Promising start, but results were too caffeinated and jittery.</p>
+                    </div>
+                    <div class="recycle-item">
+                        <p><strong>Idea: "Meetings but make it fun"</strong></p>
+                        <p>Discovered that meetings are meetings. No amount of pizza helps.</p>
+                    </div>
+                    <div class="recycle-item">
+                        <p><strong>Project: "AI that understands sarcasm"</strong></p>
+                        <p>Sure, Jan. This one's still in beta... in my dreams.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Taskbar -->
+    <div class="taskbar">
+        <div class="start-button" id="start-button">
+            <span class="start-icon">🪟</span>
+            <span class="start-text">start</span>
+        </div>
+        
+        <!-- Start Menu -->
+        <div class="start-menu" id="start-menu" style="display: none;">
+            <div class="start-menu-header">
+                <div class="user-info">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-name">Jeff Tuel</div>
+                </div>
+            </div>
+            <div class="start-menu-items">
+                <div class="start-menu-item" data-window="mycomputer">
+                    <span class="menu-icon">🖥️</span>
+                    <span class="menu-text">My Computer</span>
+                </div>
+                <div class="start-menu-item" data-window="controlpanel">
+                    <span class="menu-icon">⚙️</span>
+                    <span class="menu-text">Control Panel</span>
+                </div>
+                <div class="start-menu-item" data-window="games">
+                    <span class="menu-icon">🎮</span>
+                    <span class="menu-text">Games</span>
+                </div>
+                <div class="start-menu-item" data-window="mypictures">
+                    <span class="menu-icon">🖼️</span>
+                    <span class="menu-text">My Pictures</span>
+                </div>
+                <div class="start-menu-item" data-window="readme">
+                    <span class="menu-icon">📄</span>
+                    <span class="menu-text">README.txt</span>
+                </div>
+                <div class="start-menu-item" data-window="outlook">
+                    <span class="menu-icon">✉️</span>
+                    <span class="menu-text">Outlook Express</span>
+                </div>
+                <div class="start-menu-separator"></div>
+                <div class="start-menu-item" data-window="personazoo-exe">
+                    <span class="menu-icon">👥</span>
+                    <span class="menu-text">PersonaZoo.exe</span>
+                </div>
+                <div class="start-menu-item" data-window="gridlock-exe">
+                    <span class="menu-icon">🎯</span>
+                    <span class="menu-text">Gridlock.exe</span>
+                </div>
+                <div class="start-menu-separator"></div>
+                <div class="start-menu-item" onclick="window.open('https://manus.im/invitation/EDYNGFT15OVIGUN', '_blank')">
+                    <span class="menu-icon">🤖</span>
+                    <span class="menu-text">Try Manus AI</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="taskbar-right">
+            <div class="sound-toggle" id="sound-toggle" title="Toggle Sound Effects">
+                <span class="sound-icon">🔊</span>
+            </div>
+            <div class="system-tray">
+                <span class="tray-icon">📶</span>
+                <span class="clock" id="clock">12:00 PM</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

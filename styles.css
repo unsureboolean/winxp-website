@@ -1,0 +1,773 @@
+/* Windows XP Theme CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Tahoma', 'MS Sans Serif', sans-serif;
+    font-size: 11px;
+    overflow: hidden;
+    height: 100vh;
+    background: url('bliss-wallpaper.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Desktop */
+.desktop {
+    width: 100vw;
+    height: calc(100vh - 40px);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Desktop Icons */
+.desktop-icons {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.desktop-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 2px;
+    transition: background-color 0.2s;
+}
+
+.desktop-icon:hover {
+    background-color: rgba(49, 106, 197, 0.3);
+}
+
+.desktop-icon.selected {
+    background-color: rgba(49, 106, 197, 0.5);
+}
+
+.icon-image {
+    font-size: 32px;
+    margin-bottom: 4px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.icon-label {
+    color: white;
+    font-size: 11px;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    word-wrap: break-word;
+    line-height: 1.2;
+}
+
+/* Windows */
+.window {
+    position: absolute;
+    background: #ece9d8;
+    border: 2px outset #ece9d8;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    min-width: 400px;
+    min-height: 300px;
+    max-width: 80vw;
+    max-height: 80vh;
+    z-index: 100;
+}
+
+.window.maximized {
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: calc(100vh - 40px) !important;
+    max-width: none !important;
+    max-height: none !important;
+    border-radius: 0;
+}
+
+.window-header {
+    background: linear-gradient(to bottom, #0997ff 0%, #0053ee 4%, #0050ee 6%, #0050ee 94%, #06f 96%, #06f 100%);
+    color: white;
+    padding: 4px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 6px 6px 0 0;
+    cursor: move;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.window.inactive .window-header {
+    background: linear-gradient(to bottom, #7d8a99 0%, #5d6a79 4%, #5d6a79 6%, #5d6a79 94%, #7d8a99 96%, #7d8a99 100%);
+}
+
+.window-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.window-icon {
+    font-size: 16px;
+}
+
+.window-controls {
+    display: flex;
+    gap: 2px;
+}
+
+.window-controls button {
+    width: 21px;
+    height: 21px;
+    border: 1px outset #ece9d8;
+    background: #ece9d8;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.window-controls button:hover {
+    background: #d4d0c8;
+}
+
+.window-controls button:active {
+    border: 1px inset #ece9d8;
+}
+
+.close-btn:hover {
+    background: #ff4444 !important;
+    color: white;
+}
+
+.window-content {
+    padding: 16px;
+    height: calc(100% - 32px);
+    overflow-y: auto;
+    background: #ece9d8;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.window-content h2 {
+    color: #003d82;
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.window-content h3 {
+    color: #003d82;
+    font-size: 13px;
+    margin: 16px 0 8px 0;
+    font-weight: bold;
+}
+
+.window-content h4 {
+    color: #003d82;
+    font-size: 12px;
+    margin: 12px 0 6px 0;
+    font-weight: bold;
+}
+
+.window-content p {
+    margin-bottom: 12px;
+    color: #000;
+}
+
+/* Skills */
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.skill-badge {
+    background: #d4d0c8;
+    border: 1px outset #d4d0c8;
+    padding: 4px 8px;
+    font-size: 10px;
+    border-radius: 2px;
+    color: #000;
+}
+
+/* Experience */
+.experience-item {
+    background: #f0f0f0;
+    border: 1px inset #ece9d8;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 2px;
+}
+
+.job-title {
+    color: #666;
+    font-style: italic;
+    margin-bottom: 6px;
+}
+
+/* Projects */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 12px;
+}
+
+.project-card {
+    background: #f0f0f0;
+    border: 1px inset #ece9d8;
+    padding: 12px;
+    border-radius: 2px;
+    text-align: center;
+}
+
+.project-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.project-links {
+    margin-top: 8px;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Personal */
+.interests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 12px;
+    margin: 12px 0;
+}
+
+.interest-item {
+    background: #f0f0f0;
+    border: 1px inset #ece9d8;
+    padding: 12px;
+    text-align: center;
+    border-radius: 2px;
+}
+
+.interest-icon {
+    font-size: 24px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.personal-links {
+    margin-top: 16px;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Values */
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.value-item {
+    background: #f0f0f0;
+    border: 1px inset #ece9d8;
+    padding: 12px;
+    border-radius: 2px;
+}
+
+/* Contact */
+.contact-links {
+    margin-top: 16px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* XP Button */
+.xp-button {
+    background: linear-gradient(to bottom, #f0f0f0 0%, #d4d0c8 100%);
+    border: 1px outset #d4d0c8;
+    padding: 6px 12px;
+    text-decoration: none;
+    color: #000;
+    font-size: 11px;
+    border-radius: 2px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.1s;
+}
+
+.xp-button:hover {
+    background: linear-gradient(to bottom, #f8f8f8 0%, #e0e0e0 100%);
+}
+
+.xp-button:active {
+    border: 1px inset #d4d0c8;
+    background: linear-gradient(to bottom, #d4d0c8 0%, #f0f0f0 100%);
+}
+
+.button-icon {
+    font-size: 14px;
+}
+
+/* Taskbar */
+.taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(to bottom, #245edb 0%, #1941a5 3%, #1941a5 5%, #1941a5 95%, #245edb 97%, #245edb 100%);
+    border-top: 1px solid #4a90e2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+    z-index: 1000;
+}
+
+/* Start Button */
+.start-button {
+    background: linear-gradient(to bottom, #73d216 0%, #4e9a06 100%);
+    border: 2px outset #73d216;
+    border-radius: 8px 8px 0 0;
+    padding: 4px 20px;
+    color: white;
+    font-weight: bold;
+    font-size: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 32px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    transition: all 0.1s;
+    box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.start-button:hover {
+    background: linear-gradient(to bottom, #8ae234 0%, #73d216 100%);
+    border-color: #8ae234;
+}
+
+.start-button:active,
+.start-button.active {
+    border: 2px inset #73d216;
+    background: linear-gradient(to bottom, #4e9a06 0%, #73d216 100%);
+    box-shadow: inset -1px -1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.start-icon {
+    font-size: 16px;
+}
+
+.start-text {
+    font-family: 'Trebuchet MS', sans-serif;
+    font-style: italic;
+}
+
+/* Start Menu */
+.start-menu {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    width: 300px;
+    background: #ece9d8;
+    border: 2px outset #ece9d8;
+    border-bottom: none;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    z-index: 1001;
+}
+
+.start-menu-header {
+    background: linear-gradient(to right, #0997ff 0%, #0053ee 100%);
+    color: white;
+    padding: 16px;
+    font-weight: bold;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    font-size: 24px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-name {
+    font-size: 13px;
+}
+
+.start-menu-items {
+    padding: 8px 0;
+}
+
+.start-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 11px;
+    color: #000;
+    transition: background-color 0.1s;
+}
+
+.start-menu-item:hover {
+    background: #316ac5;
+    color: white;
+}
+
+.menu-icon {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+.start-menu-separator {
+    height: 1px;
+    background: #d4d0c8;
+    margin: 4px 16px;
+}
+
+/* System Tray */
+.taskbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.system-tray {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 8px;
+    color: white;
+    font-size: 11px;
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px inset #245edb;
+    height: 24px;
+}
+
+.tray-icon {
+    font-size: 12px;
+}
+
+.clock {
+    font-weight: bold;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* Patch Notes */
+.patch-notes {
+    background: #f0f0f0;
+    border: 1px inset #ece9d8;
+    padding: 12px;
+    margin-top: 16px;
+    border-radius: 2px;
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+}
+
+.patch-notes h3 {
+    color: #003d82;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.patch-content ul {
+    margin-left: 20px;
+    margin-bottom: 8px;
+}
+
+.patch-content li {
+    margin-bottom: 4px;
+    color: #000;
+}
+
+.patch-content p {
+    margin-bottom: 6px;
+    color: #003d82;
+    font-weight: bold;
+}
+
+/* Notepad Style */
+.notepad-style {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+/* EXE Windows */
+.exe-window {
+    min-width: 500px;
+    min-height: 400px;
+}
+
+.exe-content {
+    padding: 0;
+    height: calc(100% - 32px);
+}
+
+.exe-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: white;
+}
+
+/* Recycle Bin */
+.recycle-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.recycle-item {
+    background: #f0f0f0;
+    border: 1px inset #ece9d8;
+    padding: 12px;
+    border-radius: 2px;
+}
+
+.recycle-item p {
+    margin-bottom: 6px;
+    color: #000;
+}
+
+.recycle-item p:first-child {
+    color: #003d82;
+    font-weight: bold;
+}
+
+/* Tip of the Day Modal */
+.tip-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.tip-window {
+    background: #ece9d8;
+    border: 2px outset #ece9d8;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    width: 400px;
+    max-width: 90vw;
+}
+
+.tip-header {
+    background: linear-gradient(to bottom, #0997ff 0%, #0053ee 4%, #0050ee 6%, #0050ee 94%, #06f 96%, #06f 100%);
+    color: white;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 6px 6px 0 0;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.tip-icon {
+    font-size: 18px;
+}
+
+.tip-content {
+    padding: 16px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.tip-content p {
+    color: #000;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.tip-buttons {
+    padding: 12px 16px;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    border-top: 1px solid #d4d0c8;
+}
+
+/* Sound Toggle */
+.sound-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 24px;
+    cursor: pointer;
+    color: white;
+    font-size: 14px;
+    transition: background-color 0.1s;
+    border: 1px solid transparent;
+}
+
+.sound-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sound-toggle.muted .sound-icon::after {
+    content: ' ✕';
+    font-size: 10px;
+}
+
+.sound-icon {
+    font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .desktop {
+        height: 100vh; /* Full height on mobile since no taskbar */
+    }
+    
+    .desktop-icons {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        top: 20px;
+        left: 20px;
+        right: 20px;
+        justify-items: center;
+    }
+    
+    .desktop-icon {
+        width: 80px;
+    }
+    
+    .icon-image {
+        font-size: 32px;
+    }
+    
+    .icon-label {
+        font-size: 11px;
+    }
+    
+    .window {
+        min-width: 95vw;
+        min-height: 80vh;
+        top: 10px !important;
+        left: 2.5vw !important;
+    }
+    
+    .taskbar {
+        display: none; /* Hide taskbar on mobile */
+    }
+    
+    .start-menu {
+        display: none !important; /* Never show start menu on mobile */
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .interests-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .project-links, .personal-links, .contact-links {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .xp-button {
+        width: 100%;
+        max-width: 200px;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .desktop {
+        height: 100vh; /* Full height on mobile since no taskbar */
+    }
+    
+    .desktop-icons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        top: 15px;
+        left: 15px;
+        right: 15px;
+    }
+    
+    .desktop-icon {
+        width: 70px;
+    }
+    
+    .icon-image {
+        font-size: 28px;
+    }
+    
+    .icon-label {
+        font-size: 10px;
+    }
+    
+    .taskbar {
+        display: none; /* Hide taskbar on mobile */
+    }
+    
+    .start-menu {
+        display: none !important; /* Never show start menu on mobile */
+    }
+    
+    .window {
+        min-width: 98vw;
+        min-height: 85vh;
+        top: 5px !important;
+        left: 1vw !important;
+    }
+    
+    .window-content {
+        padding: 12px;
+        font-size: 12px;
+    }
+    
+    .interests-grid {
+        grid-template-columns: 1fr;
+    }
+}
+

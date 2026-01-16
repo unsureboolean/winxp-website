@@ -2,7 +2,7 @@
 
 // Tips of the Day
 const TIPS_OF_THE_DAY = [
-    "On larger screens, this website works best in landscape mode. Click for more pro tips.",
+    "This website works best on Desktop. Click for more pro tips.",
     "Pro tip: Don't forget to save your work. Or your sanity.",
     "Ctrl+Alt+Snacks increases productivity by 42%.",
     "Jeff.exe runs best on caffeine.",

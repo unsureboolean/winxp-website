@@ -526,6 +526,93 @@
                 padding: 8px;
             }
         }
+
+        /* === IFRAME / EMBEDDED MODE ===
+         * When Gridlock is loaded inside an iframe (e.g., the WinXP desktop),
+         * the viewport is much smaller. This compact mode shrinks everything
+         * so the game board, header, and controls all fit without clipping.
+         * Detected via the .iframe-mode class added by JavaScript below. */
+        body.iframe-mode {
+            padding: 4px;
+            min-height: auto;
+            overflow: hidden;
+        }
+
+        body.iframe-mode .game-container {
+            gap: 4px;
+            padding: 0 8px;
+            max-width: 100%;
+        }
+
+        body.iframe-mode .game-info {
+            margin-bottom: 2px;
+            padding: 6px 10px;
+            border-radius: 10px;
+        }
+
+        body.iframe-mode .game-info h1 {
+            font-size: 1.1rem;
+            margin: 0 0 2px 0;
+        }
+
+        body.iframe-mode .status {
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+            padding: 4px 10px;
+            border-radius: 8px;
+        }
+
+        body.iframe-mode .level-info {
+            margin-top: 4px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 11px;
+        }
+
+        body.iframe-mode .level-btn {
+            padding: 2px 6px;
+            font-size: 10px;
+        }
+
+        body.iframe-mode .game-board {
+            /* Scale down the game board to fit the iframe */
+            width: min(85vw, 380px);
+            height: min(85vw, 380px);
+            border-radius: 16px;
+        }
+
+        body.iframe-mode .game-controls {
+            margin: 4px 0;
+            gap: 8px;
+        }
+
+        body.iframe-mode .restart-btn,
+        body.iframe-mode .pause-btn {
+            padding: 6px 14px;
+            font-size: 11px;
+            min-width: 80px;
+        }
+
+        body.iframe-mode .toggle-label {
+            font-size: 11px;
+        }
+
+        body.iframe-mode .controls {
+            display: none; /* Hide instructions in iframe mode to save space */
+        }
+
+        body.iframe-mode .mobile-instructions {
+            display: none;
+        }
+
+        body.iframe-mode .high-score {
+            font-size: 10px;
+        }
+
+        body.iframe-mode .game-over,
+        body.iframe-mode .victory {
+            font-size: 0.9rem !important;
+        }
     </style>
 </head>
 <body>
@@ -1400,7 +1487,35 @@
             }
         }
 
-        window.addEventListener('load', startGame);
+        /* === IFRAME DETECTION ===
+         * Detect if Gridlock is running inside an iframe (e.g., WinXP desktop).
+         * If so, add 'iframe-mode' class to body for compact CSS, then
+         * restart the game so boardSize recalculates with the smaller board. */
+        function detectIframeMode() {
+            try {
+                if (window.self !== window.top) {
+                    document.body.classList.add('iframe-mode');
+                    return true;
+                }
+            } catch (e) {
+                // Cross-origin iframe - assume embedded
+                document.body.classList.add('iframe-mode');
+                return true;
+            }
+            return false;
+        }
+
+        window.addEventListener('load', () => {
+            const isIframe = detectIframeMode();
+            startGame();
+            // If in iframe, the board size may have changed after CSS applied,
+            // so force a recalculation after a brief delay
+            if (isIframe) {
+                setTimeout(() => {
+                    if (game) game.restartGame();
+                }, 200);
+            }
+        });
     </script>
 </body>
 </html>

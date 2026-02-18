@@ -523,18 +523,20 @@ body {
     line-height: 1.6;
 }
 
-/* EXE Windows */
+/* EXE Windows
+ * These windows host iframed content (Gridlock, PersonaZoo).
+ * The iframe content adapts to the available space via its own CSS. */
 .exe-window {
     min-width: 500px;
     min-height: 400px;
-    height: 600px;
     width: 800px;
+    height: 600px;
 }
 
 .exe-content {
     padding: 0;
     height: calc(100% - 32px);
-    overflow: hidden;
+    overflow: auto; /* Allow scrolling if iframe content exceeds window */
 }
 
 .exe-iframe {

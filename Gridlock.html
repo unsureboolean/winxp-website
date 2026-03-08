@@ -1091,7 +1091,8 @@
                         
                         this.squares[row][col] = {
                             element: square,
-                            color: 'grey'
+                            color: 'grey',
+                            locked: false
                         };
                         
                         this.squareEdges[row][col] = {
@@ -1143,7 +1144,8 @@
             
             setSquareEdge(row, col, edge, isPlayer) {
                 if (row < 0 || row >= this.gridSize || col < 0 || col >= this.gridSize) return;
-                
+                if (this.squares[row][col].locked) return;
+
                 this.squareEdges[row][col][edge] = isPlayer;
                 this.updateSquareAppearance(row, col);
             }
@@ -1168,39 +1170,48 @@
                 
                 if (allBlue && square.color !== 'blue') {
                     square.color = 'blue';
+                    square.locked = true;
                     square.element.className = square.element.className.replace(/\b(grey|red|blue)\b/, 'blue');
                     this.checkWinCondition();
                 } else if (allRed && square.color !== 'red') {
                     square.color = 'red';
+                    square.locked = true;
                     square.element.className = square.element.className.replace(/\b(grey|red|blue)\b/, 'red');
+                    this.checkWinCondition();
                 }
             }
             
             checkWinCondition() {
                 let blueSquares = 0;
+                let redSquares = 0;
+                const totalSquares = this.gridSize * this.gridSize;
+
                 for (let row = 0; row < this.gridSize; row++) {
                     for (let col = 0; col < this.gridSize; col++) {
-                        if (this.squares[row][col].color === 'blue') {
-                            blueSquares++;
-                        }
+                        if (this.squares[row][col].color === 'blue') blueSquares++;
+                        else if (this.squares[row][col].color === 'red') redSquares++;
                     }
                 }
-                
-                if (blueSquares === this.gridSize * this.gridSize) {
+
+                if (blueSquares + redSquares < totalSquares) return;
+
+                if (blueSquares > redSquares) {
                     this.gameWon = true;
-                    
+
                     const isNewRecord = this.checkNewHighScore();
                     this.unlockNextLevel();
-                    
-                    let message = `Victory! Level ${this.currentLevel} completed!`;
-                    if (isNewRecord) {
-                        message += ' NEW RECORD!';
-                    }
-                    
+
+                    let message = `Victory! You claimed ${blueSquares}/${totalSquares} squares!`;
+                    if (isNewRecord) message += ' NEW RECORD!';
+
                     this.status.textContent = message;
                     this.status.classList.add('victory');
-                    
                     triggerHapticFeedback([100, 50, 100]);
+                } else {
+                    this.gameOver = true;
+                    this.status.textContent = `Defeat! Red claimed ${redSquares}/${totalSquares} squares!`;
+                    this.status.classList.add('game-over');
+                    triggerHapticFeedback([300]);
                 }
             }
             
@@ -1461,6 +1472,7 @@
                 for (let row = 0; row < this.gridSize; row++) {
                     for (let col = 0; col < this.gridSize; col++) {
                         this.squares[row][col].color = 'grey';
+                        this.squares[row][col].locked = false;
                         this.squares[row][col].element.className = 'square grey';
                         this.squareEdges[row][col] = {
                             top: null,

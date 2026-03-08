@@ -128,9 +128,8 @@
 	    background-image: 
   	        linear-gradient(to right, rgba(100, 255, 218, 0.1) 1px, transparent 1px),
 	        linear-gradient(to bottom, rgba(100, 255, 218, 0.1) 1px, transparent 1px);
-	    background-size: calc(100% / 4) calc(100% / 4);
-	    background-position: 0 0;
-            overflow: hidden;
+	    background-size: calc(100% / 5) calc(100% / 5);
+	    background-position: calc(100% / 10) calc(100% / 10);
             touch-action: none;
             margin: 0 auto;
             box-shadow: 
@@ -140,8 +139,8 @@
         
         .square {
             position: absolute;
-            width: calc(100% / 4);
-            height: calc(100% / 4);
+            width: calc(100% / 5);
+            height: calc(100% / 5);
             border: 3px solid rgba(255, 255, 255, 0.1);
             box-sizing: border-box;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -735,9 +734,9 @@
             }
             
             updatePixelPosition() {
-                const cellSize = this.boardSize / 4;
-                this.pixelX = this.gridX * cellSize;
-                this.pixelY = this.gridY * cellSize;
+                const cellSize = this.boardSize / 5;
+                this.pixelX = this.gridX * cellSize + cellSize / 2;
+                this.pixelY = this.gridY * cellSize + cellSize / 2;
             }
             
             setDirection(newDir) {
@@ -774,9 +773,9 @@
                 this.dir = dir;
                 this.gridX += dir.x;
                 this.gridY += dir.y;
-                const cellSize = this.boardSize / 4;
-                this.targetX = this.gridX * cellSize;
-                this.targetY = this.gridY * cellSize;
+                const cellSize = this.boardSize / 5;
+                this.targetX = this.gridX * cellSize + cellSize / 2;
+                this.targetY = this.gridY * cellSize + cellSize / 2;
                 this.moving = true;
                 this.nextDir = null;
                 this.stuckCounter = 0;
@@ -791,9 +790,9 @@
                 this.gridX = this.prevGridX;
                 this.gridY = this.prevGridY;
                 
-                const cellSize = this.boardSize / 4;
-                this.targetX = this.gridX * cellSize;
-                this.targetY = this.gridY * cellSize;
+                const cellSize = this.boardSize / 5;
+                this.targetX = this.gridX * cellSize + cellSize / 2;
+                this.targetY = this.gridY * cellSize + cellSize / 2;
 
                 this.prevGridX = currentTargetX;
                 this.prevGridY = currentTargetY;
@@ -1067,13 +1066,13 @@
                 this.enemy2.targetX = this.enemy2.pixelX;
                 this.enemy2.targetY = this.enemy2.pixelY;
                 
-                const cellSize = this.player.boardSize / 4;
+                const cellSize = this.player.boardSize / 5;
                 for (let x = 0; x <= this.gridSize; x++) {
                     for (let y = 0; y <= this.gridSize; y++) {
                         const point = document.createElement('div');
                         point.className = 'grid-point';
-                        point.style.left = (x * cellSize) + 'px';
-                        point.style.top = (y * cellSize) + 'px';
+                        point.style.left = (x * cellSize + cellSize / 2) + 'px';
+                        point.style.top = (y * cellSize + cellSize / 2) + 'px';
                         this.gameBoard.appendChild(point);
                     }
                 }
@@ -1086,8 +1085,8 @@
                     for (let col = 0; col < this.gridSize; col++) {
                         const square = document.createElement('div');
                         square.className = 'square grey';
-                        square.style.left = (col * cellSize) + 'px';
-                        square.style.top = (row * cellSize) + 'px';
+                        square.style.left = (col * cellSize + cellSize / 2) + 'px';
+                        square.style.top = (row * cellSize + cellSize / 2) + 'px';
                         this.gameBoard.appendChild(square);
                         
                         this.squares[row][col] = {
@@ -1366,7 +1365,7 @@
                 window.addEventListener('resize', () => {
                     const boardRect = this.gameBoard.getBoundingClientRect();
                     const newBoardSize = Math.min(boardRect.width, boardRect.height);
-                    const cellSize = newBoardSize / 4;
+                    const cellSize = newBoardSize / 5;
 
                     this.player.boardSize = newBoardSize;
                     this.enemy1.boardSize = newBoardSize;
@@ -1389,8 +1388,8 @@
                     for (let x = 0; x <= this.gridSize; x++) {
                         for (let y = 0; y <= this.gridSize; y++) {
                             if (points[idx]) {
-                                points[idx].style.left = (x * cellSize) + 'px';
-                                points[idx].style.top = (y * cellSize) + 'px';
+                                points[idx].style.left = (x * cellSize + cellSize / 2) + 'px';
+                                points[idx].style.top = (y * cellSize + cellSize / 2) + 'px';
                             }
                             idx++;
                         }
@@ -1400,8 +1399,8 @@
                     for (let row = 0; row < this.gridSize; row++) {
                         for (let col = 0; col < this.gridSize; col++) {
                             const square = this.squares[row][col].element;
-                            square.style.left = (col * cellSize) + 'px';
-                            square.style.top = (row * cellSize) + 'px';
+                            square.style.left = (col * cellSize + cellSize / 2) + 'px';
+                            square.style.top = (row * cellSize + cellSize / 2) + 'px';
                         }
                     }
 

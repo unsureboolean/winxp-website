@@ -925,11 +925,19 @@
             loadGameData() {
                 // Load unlocked levels
                 const unlockedLevels = localStorage.getItem('gridlock_unlocked_levels');
-                this.unlockedLevels = unlockedLevels ? JSON.parse(unlockedLevels) : [1];
-                
+                try {
+                    this.unlockedLevels = unlockedLevels ? JSON.parse(unlockedLevels) : [1];
+                } catch (e) {
+                    this.unlockedLevels = [1];
+                }
+
                 // Load high scores
                 const highScores = localStorage.getItem('gridlock_high_scores');
-                this.highScores = highScores ? JSON.parse(highScores) : {};
+                try {
+                    this.highScores = highScores ? JSON.parse(highScores) : {};
+                } catch (e) {
+                    this.highScores = {};
+                }
                 
                 this.updateLevelButtons();
                 this.updateHighScoreDisplay();
@@ -1346,22 +1354,45 @@
                 window.addEventListener('resize', () => {
                     const boardRect = this.gameBoard.getBoundingClientRect();
                     const newBoardSize = Math.min(boardRect.width, boardRect.height);
-                    
+                    const cellSize = newBoardSize / 5;
+
                     this.player.boardSize = newBoardSize;
                     this.enemy1.boardSize = newBoardSize;
                     this.enemy2.boardSize = newBoardSize;
-                    
+
                     this.player.updatePixelPosition();
                     this.enemy1.updatePixelPosition();
                     this.enemy2.updatePixelPosition();
-                    
+
                     this.player.targetX = this.player.pixelX;
                     this.player.targetY = this.player.pixelY;
                     this.enemy1.targetX = this.enemy1.pixelX;
                     this.enemy1.targetY = this.enemy1.pixelY;
                     this.enemy2.targetX = this.enemy2.pixelX;
                     this.enemy2.targetY = this.enemy2.pixelY;
-                    
+
+                    // Reposition grid points
+                    const points = this.gameBoard.querySelectorAll('.grid-point');
+                    let idx = 0;
+                    for (let x = 0; x <= this.gridSize; x++) {
+                        for (let y = 0; y <= this.gridSize; y++) {
+                            if (points[idx]) {
+                                points[idx].style.left = (x * cellSize + cellSize / 2) + 'px';
+                                points[idx].style.top = (y * cellSize + cellSize / 2) + 'px';
+                            }
+                            idx++;
+                        }
+                    }
+
+                    // Reposition squares
+                    for (let row = 0; row < this.gridSize; row++) {
+                        for (let col = 0; col < this.gridSize; col++) {
+                            const square = this.squares[row][col].element;
+                            square.style.left = (col * cellSize + cellSize / 2) + 'px';
+                            square.style.top = (row * cellSize + cellSize / 2) + 'px';
+                        }
+                    }
+
                     this.updateBallPositions();
                 });
             }
